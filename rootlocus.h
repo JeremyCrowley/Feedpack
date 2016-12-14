@@ -6,12 +6,14 @@
 #define ROOTLOCUS_H
 
 #include <stdlib.h>
+#include <math.h>
 
 /* data type for a complex number */
 struct ComplexNumber
 {
+	int multiplicity;
 	float real;
-	float im;
+	float imag;
 };
 
 typedef struct ComplexNumber complex_t;
@@ -26,5 +28,7 @@ float FindCentroid(complex_t *zeros, int numZeros, complex_t *poles, int numPole
 /* writes angle of asymptotes to array */
 void FindAsymptotes(float centroid, int numZeros, int numPoles, float angleArray[numPoles-numZeros]);
 
+/* finds the departure angle of a pole */
+float findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles);
 
 #endif
