@@ -114,14 +114,124 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
 	k = 0;
 	for(i = 0; i < pole.multiplicity; i++)
 	{
-		depAngle[i] = zeroAngleSum - poleAngleSum - (180/pole.multiplicity) + 360 * k;
+		depAngle[i] = zeroAngleSum - poleAngleSum - (180/pole.multiplicity) - (360/pole.multiplicity) * k;
 		k++;
 
-		while(depAngle[i] < -180)
+		if(depAngle[i] + 180 < 0)
 		{
-			depAngle[i] += 360;
+			while(depAngle[i] + 180 < 0)
+			{
+				depAngle[i] += 360;
+			}
+		}
+		else if(depAngle[i] > 180)
+		{
+			while(depAngle[i] > 180)
+			{
+				depAngle[i] -= 360;
+			}
+		}
+		else{
+			// do nothing
 		}
 
 	}
 
 }
+
+
+void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *arrAngle)
+{
+	int i, j, k;
+	float zeroAngleSum = 0;
+	float poleAngleSum = 0;
+
+	float imagLen, realLen, angle;
+	
+	/* sum the angles from the zeros to the zero */
+
+	j=0;
+	for(i = 0; i < numZeros; i += zeros[i].multiplicity)
+	{
+		imagLen = zero.imag - zeros[j].imag;
+		realLen = zero.real - zeros[j].real;
+
+		/* account for arctangent properites */
+		if(imagLen == 0 && realLen == 0)
+		{
+			angle = 0;
+		}
+		else if(realLen < 0)
+		{
+			angle = (180/PI) * atan(imagLen/realLen) + 180;
+		}
+		else
+		{
+			angle = (180/PI) * atan(imagLen/realLen);
+		}
+
+		/* account for multiplicity of the pole */
+		zeroAngleSum += (angle * zeros[j].multiplicity);
+		j++;
+	}
+
+	/* sum the angles from the poles to the zero */
+
+	j=0;
+	for(i = 0; i < numPoles; i += poles[j].multiplicity)
+	{
+		imagLen = zero.imag - poles[j].imag;
+		realLen = zero.real - poles[j].real;
+
+		/* account for arctangent properites */
+		if(imagLen == 0 && realLen == 0)
+		{
+			angle = 0;
+		}
+		else if(realLen < 0)
+		{
+			angle = (180/PI) * atan(imagLen/realLen) + 180;
+		}
+		else
+		{
+			angle = (180/PI) * atan(imagLen/realLen);
+		}
+
+		/* account for multiplicity of the pole */
+		poleAngleSum += (angle * poles[j].multiplicity);
+		j++;		
+	}
+
+	
+	/* calculate the arrival angles for the zeros */
+	/* and account for multiplicity */
+	k = 0;
+	for(i = 0; i < zero.multiplicity; i++)
+	{
+		arrAngle[i] = poleAngleSum - zeroAngleSum + (180/zero.multiplicity) + (360/zero.multiplicity) * k;
+		k++;
+
+		if(arrAngle[i] + 180 < 0)
+		{
+			while(arrAngle[i] + 180 < 0)
+			{
+				arrAngle[i] += 360;
+			}
+		}
+		else if(arrAngle[i] > 180)
+		{
+			while(arrAngle[i] > 180)
+			{
+				arrAngle[i] -= 360;
+			}
+		}
+		else{
+			// do nothing
+		}
+
+	}
+
+}
+
+
+

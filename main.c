@@ -100,6 +100,8 @@ int main(void)
 	float depAngle2[poles[2].multiplicity];
 	float depAngle3[poles[3].multiplicity];
 
+	float arrAngle0[zeros[0].multiplicity];
+
 	findDeparture(poles[0], zeros, numZeros, poles, numPoles, depAngle0);
 	for(i = 0; i < poles[0].multiplicity; i++)
 	{
@@ -127,6 +129,11 @@ int main(void)
 		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", poles[3].real, poles[3].imag, depAngle3[i]);
 	}
 
+	findArrival(zeros[0], zeros, numZeros, poles, numPoles, arrAngle0);
+	for(i = 0; i < zeros[0].multiplicity; i++)
+	{
+		printf("Arrival angle of zeros at (%f, %f) is : %f degrees\n", zeros[0].real, zeros[0].imag, arrAngle0[i]);
+	}
 	#endif /* PROBLEM_5_7_C */
    
 }

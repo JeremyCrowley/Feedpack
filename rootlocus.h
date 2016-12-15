@@ -51,8 +51,21 @@ void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArra
  * param - numZeros is the number of roots in the array 
  * param - poles is a pointer to an array containing the poles
  * param - numPoles is the number of poles in the array
- * ret - a floating point value of the departure angle in degrees
+ * param - depAnlgle is a pointer to the array of departure angles
+ * ret - void
  */
 void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *depAngle);
+
+/* desc - finds the departure angle of a pole 
+ * param - zero is the zero for which the arrival angle is being calculated
+ * param - zeros is a pointer to an array containing the zeros
+ * param - numZeros is the number of roots in the array 
+ * param - poles is a pointer to an array containing the poles
+ * param - numPoles is the number of poles in the array
+ * param - arrAngle is a pointer to the array of arrival angles
+ * ret - void
+ */
+void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *arrAngle);
+
 
 #endif
