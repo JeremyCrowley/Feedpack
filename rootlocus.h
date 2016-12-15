@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 /* TO DO - make file for relavent data types */
+/*		 - numerator and denominator datatype! */
 
 /* data type for a complex number */
 struct ComplexNumber
