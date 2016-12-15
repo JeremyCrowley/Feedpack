@@ -9,6 +9,8 @@
 #include <math.h>
 #include <stdio.h>
 
+/* TO DO - make file for relavent data types */
+
 /* data type for a complex number */
 struct ComplexNumber
 {

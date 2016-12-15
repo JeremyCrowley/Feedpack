@@ -1,7 +1,7 @@
 FLAGS  = -std=c99 -Wall
-SOURCES = rootlocus.c  main.c
-OBJECTS = rootlocus.o  main.o
-HEADERS = rootlocus.h
+SOURCES = rootlocus.c nyquist.c main.c
+OBJECTS = rootlocus.o nyquist.o  main.o
+HEADERS = rootlocus.h nyquist.h
 EXEBIN  = main
 
 $(EXEBIN) : $(OBJECTS) $(HEADERS)
