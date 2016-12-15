@@ -4,6 +4,8 @@
 
 #include "rootlocus.h"
 
+#define PI 3.141592
+
 float SumRoots(complex_t roots[], int numRoots)
 {
 	int i, j;
@@ -11,11 +13,11 @@ float SumRoots(complex_t roots[], int numRoots)
 
 	/* add all real parts (imaginary will cancel) */ 
 	for(i = 0; i < numRoots; i++)
-	{
-		for(j = roots[i].multiplicity; j > 1;j++)
+	{	
+		for(j = roots[i].multiplicity; j > 0;j--)
 		{
 			sum += roots[i].real;
-		}
+		}	
 	}
 	return sum;
 }
@@ -25,6 +27,7 @@ float FindCentroid(complex_t zeros[], int numZeros, complex_t poles[], int numPo
 	float centroid = 0;
 	float sumZeros, sumPoles;
 
+	/* find the sum of the zeros and the poles */
 	sumZeros = SumRoots(zeros, numZeros);
 	sumPoles = SumRoots(poles, numPoles);
 
@@ -33,7 +36,7 @@ float FindCentroid(complex_t zeros[], int numZeros, complex_t poles[], int numPo
 	return centroid;
 }
 
-void FindAsymptotes(float centroid, int numZeros, int numPoles, float angleArray[numPoles-numZeros])
+void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArray)
 {
 	int i;
 
@@ -43,37 +46,82 @@ void FindAsymptotes(float centroid, int numZeros, int numPoles, float angleArray
 	}
 }
 
-float findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles)
+void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *depAngle)
 {
-	int i;
-	float depAngle = 0;
+	int i, j, k;
 	float zeroAngleSum = 0;
 	float poleAngleSum = 0;
 
-	float imagLen, realLen;
+	float imagLen, realLen, angle;
 	
+	/* sum the angles from the zeros to the pole */
 
-	for(i = 0; i < numZeros; i++)
+	j=0;
+	for(i = 0; i < numZeros; i += zeros[i].multiplicity)
 	{
-		imagLen = pole.imag - zeros[i].imag;
-		realLen = pole.real - zeros[i].real;
+		imagLen = pole.imag - zeros[j].imag;
+		realLen = pole.real - zeros[j].real;
 
-		zeroAngleSum += atan(imagLen/realLen);
+		/* account for arctangent properites */
+		if(imagLen == 0 && realLen == 0)
+		{
+			angle = 0;
+		}
+		else if(realLen < 0)
+		{
+			angle = (180/PI) * atan(imagLen/realLen) + 180;
+		}
+		else
+		{
+			angle = (180/PI) * atan(imagLen/realLen);
+		}
+
+		/* account for multiplicity of the pole */
+		zeroAngleSum += (angle * zeros[j].multiplicity);
+		j++;
 	}
 
-	for(i = 0; i < numPoles; i++)
-	{
-		imagLen = pole.imag - poles[i].imag;
-		realLen = pole.real - poles[i].real;
+	/* sum the angles from the poles to the pole */
 
-		poleAngleSum += atan(imagLen/realLen);
+	j=0;
+	for(i = 0; i < numPoles; i += poles[j].multiplicity)
+	{
+		imagLen = pole.imag - poles[j].imag;
+		realLen = pole.real - poles[j].real;
+
+		/* account for arctangent properites */
+		if(imagLen == 0 && realLen == 0)
+		{
+			angle = 0;
+		}
+		else if(realLen < 0)
+		{
+			angle = (180/PI) * atan(imagLen/realLen) + 180;
+		}
+		else
+		{
+			angle = (180/PI) * atan(imagLen/realLen);
+		}
+
+		/* account for multiplicity of the pole */
+		poleAngleSum += (angle * poles[j].multiplicity);
+		j++;		
 	}
 
-	// not complete formula
-	depAngle = zeroAngleSum - poleAngleSum;
+	
+	/* calculate the departure angles for the pole */
+	/* and account for multiplicity */
+	k = 0;
+	for(i = 0; i < pole.multiplicity; i++)
+	{
+		depAngle[i] = zeroAngleSum - poleAngleSum - (180/pole.multiplicity) + 360 * k;
+		k++;
 
+		while(depAngle[i] < -180)
+		{
+			depAngle[i] += 360;
+		}
 
-	return depAngle;
-
+	}
 
 }
