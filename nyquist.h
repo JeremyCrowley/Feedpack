@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include "datatypes.h"
 
-float sAtZero(complex_t *zeros, int numZeros, complex_t *poles, int numPoles);
+float sAtZero(polynomial_t numerator, polynomial_t denominator);
 
-float sToInfty(complex_t *zeros, int numZeros, complex_t *poles, int numPoles);
+float sToInfty(polynomial_t numerator, polynomial_t denominator);
 
 #endif /* NYQUIST_H */

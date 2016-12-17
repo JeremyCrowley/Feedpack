@@ -4,6 +4,10 @@
 
 #include <stdio.h>
 #include "rootlocus.h"
+#include "nyquist.h"
+
+//#define ROOTLOCUS_TEST
+#define NYQUIST_TEST
 
 /* pound defines for enabling different transfer functions */
 #define PROBLEM_5_7_A
@@ -11,6 +15,9 @@
 
 int main(void)
 {
+
+	#ifdef ROOTLOCUS_TEST
+
 
 	#ifdef PROBLEM_5_7_A
 	/* zeros of a transfer function */
@@ -20,6 +27,15 @@ int main(void)
 	zeros[0].multiplicity = 1;
 	zeros[0].real = -3;
 	zeros[0].imag = 0;
+
+	polynomial_t numerator;
+
+	numerator.numRoots = numZeros;
+	numerator.originRoots = 0;
+
+	// need to make a function for this
+	numerator.roots = (complex_t*)malloc(sizeof(complex_t)*numerator.numRoots);
+	numerator.roots[0] = zeros[0];
 
 	/* poles of a transfer function */
 	int numPoles = 4;
@@ -41,22 +57,13 @@ int main(void)
 	poles[3].real = -1;
 	poles[3].imag = -1;
 
-	polynomial_t numerator;
+	
 	polynomial_t denominator;
-
-	numerator.numRoots = numZeros;
-	numerator.originRoots = 0;
-
-	// need to make a function for this
-	numerator.roots = (complex_t*)malloc(sizeof(complex_t)*numerator.numRoots);
-
-	numerator.roots[0] = zeros[0];
 
 	denominator.numRoots = numPoles;
 	denominator.originRoots = 1;
 
 	denominator.roots = (complex_t*)malloc(sizeof(complex_t)*denominator.numRoots);
-
 	denominator.roots[0] = poles[0];
 	denominator.roots[1] = poles[1];
 	denominator.roots[2] = poles[2];
@@ -160,5 +167,58 @@ int main(void)
 		printf("Arrival angle of zeros at (%f, %f) is : %f degrees\n", numerator.roots[0].real, numerator.roots[0].imag, arrAngle0[i]);
 	}
 	#endif /* PROBLEM_5_7_C */
+
+
+	#endif /* ROOTLOCUS_TEST */
+
+
+
+	#ifdef NYQUIST_TEST
+
+	/* zeros of a transfer function */
+	int numZeros = 1;
+	complex_t zeros[numZeros];
+
+	zeros[0].multiplicity = 1;
+	zeros[0].real = -2;
+	zeros[0].imag = 0;
+
+	polynomial_t numerator;
+
+	numerator.numRoots = numZeros;
+	numerator.originRoots = 0;
+
+	// need to make a function for this
+	numerator.roots = (complex_t*)malloc(sizeof(complex_t)*numerator.numRoots);
+	numerator.roots[0] = zeros[0];
+
+
+		/* poles of a transfer function */
+	int numPoles = 1;
+	complex_t poles[numPoles];
+
+	poles[0].multiplicity = 1;
+	poles[0].real = -10;
+	poles[0].imag = 0;
+
+	
+	polynomial_t denominator;
+
+	denominator.numRoots = numPoles;
+	denominator.originRoots = 0;
+
+	denominator.roots = (complex_t*)malloc(sizeof(complex_t)*denominator.numRoots);
+	denominator.roots[0] = poles[0];
+
+
+	float omegaZero, omegaInfty;
+
+	omegaZero = sAtZero(numerator, denominator);
+	omegaInfty = sToInfty(numerator, denominator);
+
+	printf("s at zero: %f\n s at infinity: %f\n", omegaZero, omegaInfty);
+
+
+	#endif /* NYQUIST_TEST */
    
 }
