@@ -6,8 +6,8 @@
 #include "rootlocus.h"
 
 /* pound defines for enabling different transfer functions */
-//#define PROBLEM_5_7_A
-#define PROBLEM_5_7_C
+#define PROBLEM_5_7_A
+//#define PROBLEM_5_7_C
 
 int main(void)
 {
@@ -40,6 +40,27 @@ int main(void)
 	poles[3].multiplicity = 1;
 	poles[3].real = -1;
 	poles[3].imag = -1;
+
+	polynomial_t numerator;
+	polynomial_t denominator;
+
+	numerator.numRoots = numZeros;
+	numerator.originRoots = 0;
+
+	// need to make a function for this
+	numerator.roots = (complex_t*)malloc(sizeof(complex_t)*numerator.numRoots);
+
+	numerator.roots[0] = zeros[0];
+
+	denominator.numRoots = numPoles;
+	denominator.originRoots = 1;
+
+	denominator.roots = (complex_t*)malloc(sizeof(complex_t)*denominator.numRoots);
+
+	denominator.roots[0] = poles[0];
+	denominator.roots[1] = poles[1];
+	denominator.roots[2] = poles[2];
+	denominator.roots[3] = poles[3];
 
 	#endif /* PROBLEM_5_7_A */
 
@@ -78,7 +99,7 @@ int main(void)
 
 	/* centroid calculation */
 	float centroid;
-	centroid = FindCentroid(zeros, numZeros, poles, numPoles);
+	centroid = FindCentroid(numerator, denominator);
 
 	/* asymptotoe calculation */
 	float angles[numPoles-numZeros];
@@ -102,37 +123,41 @@ int main(void)
 
 	float arrAngle0[zeros[0].multiplicity];
 
-	findDeparture(poles[0], zeros, numZeros, poles, numPoles, depAngle0);
-	for(i = 0; i < poles[0].multiplicity; i++)
+	findDeparture(denominator.roots[0], numerator, denominator, depAngle0);
+	for(i = 0; i < denominator.roots[0].multiplicity; i++)
 	{
-		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", poles[0].real, poles[0].imag, depAngle0[i]);
+		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
+			denominator.roots[0].real, denominator.roots[0].imag, depAngle0[i]);
 	}
 	
 	
-	findDeparture(poles[1], zeros, numZeros, poles, numPoles, depAngle1);
-	for(i = 0; i < poles[1].multiplicity; i++)
+	findDeparture(denominator.roots[1], numerator, denominator, depAngle1);
+	for(i = 0; i < denominator.roots[1].multiplicity; i++)
 	{
-		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", poles[1].real, poles[1].imag, depAngle1[i]);
+		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
+			denominator.roots[1].real, denominator.roots[1].imag, depAngle1[i]);
 	}
 	
 	
-	findDeparture(poles[2], zeros, numZeros, poles, numPoles, depAngle2);
-	for(i = 0; i < poles[2].multiplicity; i++)
+	findDeparture(denominator.roots[2], numerator, denominator, depAngle2);
+	for(i = 0; i < denominator.roots[2].multiplicity; i++)
 	{
-		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", poles[2].real, poles[2].imag, depAngle2[i]);
-	}
-
-	
-	findDeparture(poles[3], zeros, numZeros, poles, numPoles, depAngle3);
-	for(i = 0; i < poles[3].multiplicity; i++)
-	{
-		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", poles[3].real, poles[3].imag, depAngle3[i]);
+		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
+			denominator.roots[2].real, denominator.roots[2].imag, depAngle2[i]);
 	}
 
-	findArrival(zeros[0], zeros, numZeros, poles, numPoles, arrAngle0);
-	for(i = 0; i < zeros[0].multiplicity; i++)
+	
+	findDeparture(denominator.roots[3], numerator, denominator, depAngle3);
+	for(i = 0; i < denominator.roots[3].multiplicity; i++)
 	{
-		printf("Arrival angle of zeros at (%f, %f) is : %f degrees\n", zeros[0].real, zeros[0].imag, arrAngle0[i]);
+		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
+			denominator.roots[3].real, denominator.roots[3].imag, depAngle3[i]);
+	}
+
+	findArrival(numerator.roots[0], numerator, denominator, arrAngle0);
+	for(i = 0; i < numerator.roots[0].multiplicity; i++)
+	{
+		printf("Arrival angle of zeros at (%f, %f) is : %f degrees\n", numerator.roots[0].real, numerator.roots[0].imag, arrAngle0[i]);
 	}
 	#endif /* PROBLEM_5_7_C */
    

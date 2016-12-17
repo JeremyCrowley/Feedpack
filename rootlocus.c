@@ -6,32 +6,32 @@
 
 #define PI 3.141592
 
-float SumRoots(complex_t roots[], int numRoots)
+float SumRoots(polynomial_t polynomial)
 {
 	int i, j;
 	int sum = 0;
 
 	/* add all real parts (imaginary will cancel) */ 
-	for(i = 0; i < numRoots; i++)
+	for(i = 0; i < polynomial.numRoots; i++)
 	{	
-		for(j = roots[i].multiplicity; j > 0;j--)
+		for(j = polynomial.roots[i].multiplicity; j > 0;j--)
 		{
-			sum += roots[i].real;
+			sum += polynomial.roots[i].real;
 		}	
 	}
 	return sum;
 }
 
-float FindCentroid(complex_t zeros[], int numZeros, complex_t poles[], int numPoles)
+float FindCentroid(polynomial_t numerator, polynomial_t denominator)
 {
 	float centroid = 0;
 	float sumZeros, sumPoles;
 
 	/* find the sum of the zeros and the poles */
-	sumZeros = SumRoots(zeros, numZeros);
-	sumPoles = SumRoots(poles, numPoles);
+	sumZeros = SumRoots(numerator);
+	sumPoles = SumRoots(denominator);
 
-	centroid = (sumPoles - sumZeros) / (numPoles - numZeros);
+	centroid = (sumPoles - sumZeros) / (denominator.numRoots - numerator.numRoots);
 
 	return centroid;
 }
@@ -46,7 +46,7 @@ void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArra
 	}
 }
 
-void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *depAngle)
+void findDeparture(complex_t pole, polynomial_t numerator, polynomial_t denominator, float *depAngle)
 {
 	int i, j, k;
 	float zeroAngleSum = 0;
@@ -57,10 +57,10 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
 	/* sum the angles from the zeros to the pole */
 
 	j=0;
-	for(i = 0; i < numZeros; i += zeros[i].multiplicity)
+	for(i = 0; i < numerator.numRoots; i += numerator.roots[i].multiplicity)
 	{
-		imagLen = pole.imag - zeros[j].imag;
-		realLen = pole.real - zeros[j].real;
+		imagLen = pole.imag - numerator.roots[j].imag;
+		realLen = pole.real - numerator.roots[j].real;
 
 		/* account for arctangent properites */
 		if(imagLen == 0 && realLen == 0)
@@ -77,17 +77,17 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
 		}
 
 		/* account for multiplicity of the pole */
-		zeroAngleSum += (angle * zeros[j].multiplicity);
+		zeroAngleSum += (angle * numerator.roots[j].multiplicity);
 		j++;
 	}
 
 	/* sum the angles from the poles to the pole */
 
 	j=0;
-	for(i = 0; i < numPoles; i += poles[j].multiplicity)
+	for(i = 0; i < denominator.numRoots; i += denominator.roots[j].multiplicity)
 	{
-		imagLen = pole.imag - poles[j].imag;
-		realLen = pole.real - poles[j].real;
+		imagLen = pole.imag - denominator.roots[j].imag;
+		realLen = pole.real - denominator.roots[j].real;
 
 		/* account for arctangent properites */
 		if(imagLen == 0 && realLen == 0)
@@ -104,7 +104,7 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
 		}
 
 		/* account for multiplicity of the pole */
-		poleAngleSum += (angle * poles[j].multiplicity);
+		poleAngleSum += (angle * denominator.roots[j].multiplicity);
 		j++;		
 	}
 
@@ -140,7 +140,7 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
 }
 
 
-void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *arrAngle)
+void findArrival(complex_t zero, polynomial_t numerator, polynomial_t denominator, float *arrAngle)
 {
 	int i, j, k;
 	float zeroAngleSum = 0;
@@ -148,13 +148,13 @@ void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *pole
 
 	float imagLen, realLen, angle;
 	
-	/* sum the angles from the zeros to the zero */
+	/* sum the angles from the zeros to the pole */
 
 	j=0;
-	for(i = 0; i < numZeros; i += zeros[i].multiplicity)
+	for(i = 0; i < numerator.numRoots; i += numerator.roots[i].multiplicity)
 	{
-		imagLen = zero.imag - zeros[j].imag;
-		realLen = zero.real - zeros[j].real;
+		imagLen = zero.imag - numerator.roots[j].imag;
+		realLen = zero.real - numerator.roots[j].real;
 
 		/* account for arctangent properites */
 		if(imagLen == 0 && realLen == 0)
@@ -171,17 +171,17 @@ void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *pole
 		}
 
 		/* account for multiplicity of the pole */
-		zeroAngleSum += (angle * zeros[j].multiplicity);
+		zeroAngleSum += (angle * numerator.roots[j].multiplicity);
 		j++;
 	}
 
-	/* sum the angles from the poles to the zero */
+	/* sum the angles from the poles to the pole */
 
 	j=0;
-	for(i = 0; i < numPoles; i += poles[j].multiplicity)
+	for(i = 0; i < denominator.numRoots; i += denominator.roots[j].multiplicity)
 	{
-		imagLen = zero.imag - poles[j].imag;
-		realLen = zero.real - poles[j].real;
+		imagLen = zero.imag - denominator.roots[j].imag;
+		realLen = zero.real - denominator.roots[j].real;
 
 		/* account for arctangent properites */
 		if(imagLen == 0 && realLen == 0)
@@ -198,7 +198,7 @@ void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *pole
 		}
 
 		/* account for multiplicity of the pole */
-		poleAngleSum += (angle * poles[j].multiplicity);
+		poleAngleSum += (angle * denominator.roots[j].multiplicity);
 		j++;		
 	}
 

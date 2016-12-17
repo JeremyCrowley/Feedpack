@@ -10,7 +10,7 @@ float sAtZero(complex_t *zeros, int numZeros, complex_t *poles, int numPoles)
 	int i;
 
 	/* check for ratio of origin zeros to origin poles and cancel */
-
+	
 
 
 	/* iterate through zeros */

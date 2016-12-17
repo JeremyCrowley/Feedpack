@@ -8,27 +8,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
-
-/* TO DO - make file for relavent data types */
-/*		 - numerator and denominator datatype! */
-
-/* data type for a complex number */
-struct ComplexNumber
-{
-	int multiplicity;
-	float real;
-	float imag;
-};
-
-typedef struct ComplexNumber complex_t;
-
+#include "datatypes.h"
 
 /* desc - calculates the sum of the roots from an array of complex numbers (zeros or poles) 
  * param - roots is a pointer to the array containing the roots
  * param - numRoots is the number of roots in the array 
  * ret - a floating point value of the sum
  */
-float SumRoots(complex_t *roots, int numRoots);
+float SumRoots(polynomial_t Polynomial);
 
 /* desc - calculates the centroid of the rootlocus given the zeros and poles
  * param - zeros is a pointer to an array containing the zeros
@@ -37,7 +24,7 @@ float SumRoots(complex_t *roots, int numRoots);
  * param - numPoles is the number of poles in the array
  * ret - a floating point value of the centroid
  */
-float FindCentroid(complex_t *zeros, int numZeros, complex_t *poles, int numPoles);
+float FindCentroid(polynomial_t numerator, polynomial_t denominator);
 
 /* desc - writes angle of asymptotes to array 
  * param - centroid is the location of the centroid on the real axis
@@ -57,7 +44,7 @@ void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArra
  * param - depAnlgle is a pointer to the array of departure angles
  * ret - void
  */
-void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *depAngle);
+void findDeparture(complex_t pole, polynomial_t numerator, polynomial_t denominator, float *depAngle);
 
 /* desc - finds the departure angle of a pole 
  * param - zero is the zero for which the arrival angle is being calculated
@@ -68,7 +55,7 @@ void findDeparture(complex_t pole, complex_t *zeros, int numZeros, complex_t *po
  * param - arrAngle is a pointer to the array of arrival angles
  * ret - void
  */
-void findArrival(complex_t zero, complex_t *zeros, int numZeros, complex_t *poles, int numPoles, float *arrAngle);
+void findArrival(complex_t zero, polynomial_t numerator, polynomial_t denominator, float *arrAngle);
 
 
 #endif
