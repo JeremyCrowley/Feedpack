@@ -8,7 +8,7 @@
 #include "nyquist.h"
 
 //#define ROOTLOCUS_TEST
-#define NYQUIST_TEST
+//#define NYQUIST_TEST
 
 /* pound defines for enabling different transfer functions */
 #define PROBLEM_5_7_A
@@ -20,13 +20,20 @@
 int main(void)
 {
 	int i;
+	int slash;
+
+	char *transferFunc = malloc(sizeof(char)*100);
+	char *rawDenom = malloc(sizeof(char)*100);;
+	char *rawNum = malloc(sizeof(char)*100);;
 	
 
 	#ifdef INPUT_TEST
 
-	char tf[100];
+	char *tf = malloc(sizeof(char)*100);
 
-	char *den, *num, ch;
+	char *den = malloc(sizeof(char)*100);
+	char *num = malloc(sizeof(char)*100);
+	char ch;
 	ch = '/';
 
 	den = NULL;
@@ -34,22 +41,27 @@ int main(void)
 
 	printf("Hello, welcome to Jeremy's feedback control package\n");
 	printf("Please enter a transfer function: \n");
-
 	scanf("%s", tf);
-
 	printf("You entered: %s\n", tf);
+
+	strcpy(transferFunc, tf);
 
 	den = strchr(tf, ch);
 	den = den+1;
 
-	//num = strstr(tf, &ch);
+	strcpy(rawDenom, den);	
+	
+	num = strstr(tf, &ch);
+	
+	slash = num - tf;
 
-	//printf("%d\n", slash);
+	strncpy(rawNum, tf, slash);
 
-	//memcpy(num, tf, slash);
-
-	printf("denominator: %s\n", den);
-	//printf("numerator: %s\n", num);
+	
+	printf("numerator: %s\n", rawNum);
+	printf("denominator: %s\n", rawDenom);
+	printf("transfer: %s\n", transferFunc);
+	
 
 
 
