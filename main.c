@@ -3,6 +3,7 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #include "rootlocus.h"
 #include "nyquist.h"
 
@@ -13,8 +14,46 @@
 #define PROBLEM_5_7_A
 //#define PROBLEM_5_7_C
 
+
+#define INPUT_TEST
+
 int main(void)
 {
+	int i;
+	
+
+	#ifdef INPUT_TEST
+
+	char tf[100];
+
+	char *den, *num, ch;
+	ch = '/';
+
+	den = NULL;
+	num = NULL;
+
+	printf("Hello, welcome to Jeremy's feedback control package\n");
+	printf("Please enter a transfer function: \n");
+
+	scanf("%s", tf);
+
+	printf("You entered: %s\n", tf);
+
+	den = strchr(tf, ch);
+	den = den+1;
+
+	//num = strstr(tf, &ch);
+
+	//printf("%d\n", slash);
+
+	//memcpy(num, tf, slash);
+
+	printf("denominator: %s\n", den);
+	//printf("numerator: %s\n", num);
+
+
+
+	#endif /* INPUT_TEST */
 
 	#ifdef ROOTLOCUS_TEST
 
@@ -113,7 +152,7 @@ int main(void)
 
 	FindAsymptotes(centroid, numZeros, numPoles, angles);
 
-	int i;
+	
 	for(i = 0; i < (numPoles-numZeros); i++)
 	{
 		printf("asymptote starting at %f at an angle of %f\n", centroid, angles[i]);
