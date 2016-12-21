@@ -6,6 +6,7 @@
 #include <string.h>
 #include "rootlocus.h"
 #include "nyquist.h"
+#include "input.h"
 
 //#define ROOTLOCUS_TEST
 //#define NYQUIST_TEST
@@ -19,25 +20,28 @@
 
 int main(void)
 {
-	int i;
-	int slash;
-
-	char *transferFunc = malloc(sizeof(char)*100);
-	char *rawDenom = malloc(sizeof(char)*100);;
-	char *rawNum = malloc(sizeof(char)*100);;
+	//int i;
 	
+
+	char transferFunc[100];
+	char *rawDenom;
+	char *rawNum;
+	
+	rawDenom = NULL;
+	rawNum = NULL;
 
 	#ifdef INPUT_TEST
 
-	char *tf = malloc(sizeof(char)*100);
+	char tf[100];
 
-	char *den = malloc(sizeof(char)*100);
-	char *num = malloc(sizeof(char)*100);
+	char *den;
+	char *num;
 	char ch;
 	ch = '/';
 
 	den = NULL;
 	num = NULL;
+	
 
 	printf("Hello, welcome to Jeremy's feedback control package\n");
 	printf("Please enter a transfer function: \n");
@@ -46,24 +50,28 @@ int main(void)
 
 	strcpy(transferFunc, tf);
 
-	den = strchr(tf, ch);
+	getNumerator(tf, rawNum);
+	getDenominator(tf, rawDenom);
+
+	/*den = strchr(tf, ch);
 	den = den+1;
 
+	rawDenom = malloc(sizeof(den));
 	strcpy(rawDenom, den);	
 	
 	num = strstr(tf, &ch);
 	
 	slash = num - tf;
 
-	strncpy(rawNum, tf, slash);
+	rawNum = malloc(sizeof(char)*slash);
+
+	strncpy(rawNum, tf, slash);*/
 
 	
 	printf("numerator: %s\n", rawNum);
 	printf("denominator: %s\n", rawDenom);
 	printf("transfer: %s\n", transferFunc);
 	
-
-
 
 	#endif /* INPUT_TEST */
 
