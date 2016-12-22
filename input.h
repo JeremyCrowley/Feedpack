@@ -10,9 +10,9 @@
 #include <stdlib.h>
 
 
-void getNumerator(char *transfer, char *numerator);
+char* getNumerator(char *transfer);
 
-void getDenominator(char *transfer, char *denominator);
+char* getDenominator(char *transfer);
 
 
 

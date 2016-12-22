@@ -50,24 +50,9 @@ int main(void)
 
 	strcpy(transferFunc, tf);
 
-	getNumerator(tf, rawNum);
-	getDenominator(tf, rawDenom);
+	rawNum = getNumerator(tf);
+	rawDenom = getDenominator(tf);
 
-	/*den = strchr(tf, ch);
-	den = den+1;
-
-	rawDenom = malloc(sizeof(den));
-	strcpy(rawDenom, den);	
-	
-	num = strstr(tf, &ch);
-	
-	slash = num - tf;
-
-	rawNum = malloc(sizeof(char)*slash);
-
-	strncpy(rawNum, tf, slash);*/
-
-	
 	printf("numerator: %s\n", rawNum);
 	printf("denominator: %s\n", rawDenom);
 	printf("transfer: %s\n", transferFunc);

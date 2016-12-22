@@ -6,24 +6,30 @@
 
 char slash = '/';
 
-void getNumerator(char *transfer, char *numerator)
+char* getNumerator(char *transfer)
 {
 	int slashIndex;
 	char *slashPointer;
+	char *numerator;
 
 	slashPointer = strstr(transfer, &slash);
 	slashIndex = slashPointer - transfer;
 	numerator = malloc(sizeof(char)*slashIndex);
+
 	strncpy(numerator, transfer, slashIndex);
+	return numerator;
 }
 
-void getDenominator(char *transfer, char *denominator)
+char* getDenominator(char *transfer)
 {
 	char *slashPointer;
 	char *den;
+	char *denominator;
 
 	slashPointer = strchr(transfer, slash);
 	den = slashPointer + 1;
 	denominator = malloc(sizeof(den));
+
 	strcpy(denominator, den);
+	return denominator;
 }
