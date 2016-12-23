@@ -8,15 +8,18 @@
 #include "nyquist.h"
 #include "input.h"
 
+
+#define INPUT_TEST
 //#define ROOTLOCUS_TEST
 //#define NYQUIST_TEST
+
 
 /* pound defines for enabling different transfer functions */
 #define PROBLEM_5_7_A
 //#define PROBLEM_5_7_C
 
 
-#define INPUT_TEST
+
 
 int main(void)
 {
@@ -27,8 +30,8 @@ int main(void)
 	char *rawDenom;
 	char *rawNum;
 	
-	rawDenom = NULL;
-	rawNum = NULL;
+	//rawDenom = NULL;
+	//rawNum = NULL;
 
 	#ifdef INPUT_TEST
 
@@ -41,6 +44,9 @@ int main(void)
 
 	den = NULL;
 	num = NULL;
+
+	char *z;
+	char *p;
 	
 
 	printf("Hello, welcome to Jeremy's feedback control package\n");
@@ -57,6 +63,10 @@ int main(void)
 	printf("denominator: %s\n", rawDenom);
 	printf("transfer: %s\n", transferFunc);
 	
+	z = getZeros(rawNum);
+
+	printf("zeros: %s\n", z);
+
 
 	#endif /* INPUT_TEST */
 
