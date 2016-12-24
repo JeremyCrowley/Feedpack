@@ -23,7 +23,7 @@
 
 int main(void)
 {
-	//int i;
+	int i;
 	
 
 	char transferFunc[100];
@@ -45,8 +45,8 @@ int main(void)
 	den = NULL;
 	num = NULL;
 
-	char *z;
-	char *p;
+	complex_t *z;
+	//complex_t *p;
 	
 
 	printf("Hello, welcome to Jeremy's feedback control package\n");
@@ -63,10 +63,15 @@ int main(void)
 	printf("denominator: %s\n", rawDenom);
 	printf("transfer: %s\n", transferFunc);
 	
-	z = getZeros(rawNum);
+	z = getRoots(rawNum);
 
-	printf("zeros: %s\n", z);
+	printf("array size: %lu\n", (sizeof(z)));
+	printf("array size: %lu\n", (sizeof(&z[0])));
 
+	for(i = 0; i < (sizeof(z)/sizeof(&z[0])); i++)
+	{
+		printf("zeros: %f\n", z[i+1].real);
+	}
 
 	#endif /* INPUT_TEST */
 

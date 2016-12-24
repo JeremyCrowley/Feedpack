@@ -16,9 +16,8 @@ char* getNumerator(char *transfer);
 
 char* getDenominator(char *transfer);
 
-char* getZeros(char* numerator);
+complex_t* getRoots(char* polynomial);
 
-char* getPoles(char* denominator);
 
 
 

@@ -34,54 +34,53 @@ char* getDenominator(char *transfer)
 	return denominator;
 }
 
-char* getZeros(char* numerator)
+complex_t* getRoots(char* polynomial)
 {
-	char *zeros;
-	zeros = NULL;
+	complex_t *roots;
+	roots = NULL;
 
-	int i, j;
-	int zeroCount = 0;
+	int i, j, k;
+	int rootCount = 0;
 	i = 0;
 	j = 0;
+	k = 0;
 
-
-	while(numerator[i] != '\0')
+	// count the number of roots
+	while(polynomial[i] != '\0')
 	{
-		printf("num: %c: ", numerator[i]);
-		if(numerator[i] == 's')
+		if(polynomial[i] == 's')
 		{
-			zeroCount++;
+			rootCount++;
 		}
 		i++;
 	}
 
-	zeros = malloc(sizeof(char)*zeroCount);
+	printf("complex size: %lu\n", sizeof(complex_t));
+	printf("root count: %d\n", rootCount);
+	printf("size count: %lu\n", sizeof(complex_t)*rootCount);
 
-	for(i = 0; i < zeroCount; i++)
+	// isn't allocating enough memory?? always is 8 bytes
+	roots = calloc(rootCount, sizeof(complex_t));
+
+	printf("complex size: %lu\n", sizeof(roots));
+
+	// still needs to compensate for a roots at 0
+	for(i = 0; i < rootCount;)
 	{
-		if(numerator[i] == 's')
+		if(polynomial[j] == 's')
 		{
-			while(numerator[j] != ')' || numerator[j] != '/')
+			while(polynomial[k] != ')' && polynomial[k] != '/')
 			{
-				if(isdigit(numerator[i]))
+				if(isdigit(polynomial[k]))
 				{
-					zeros[i] = - numerator[i];
+					roots[i].real = - atoi(&polynomial[k]);
 				}
-
-				j++;
+				k++;
 			}
+			i++;
 		}
+		j++;
 	}
 
-	return zeros;
-}
-
-char* getPoles(char* denominator)
-{
-	char *poles;
-	poles = NULL;
-
-
-
-	return poles;
+	return roots;
 }

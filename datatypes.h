@@ -42,5 +42,4 @@ struct TransferFunction
 typedef struct TransferFunction transfer_t;
 
 
-
 #endif /* DATATYPES_H */
