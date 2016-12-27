@@ -54,33 +54,47 @@ int getNumRoots(char* polynomial)
 
 complex_t* getRoots(char* polynomial, int rootCount)
 {
+	int i = 0, j = 0, k = 0, l = 0;
+
 	complex_t *roots;
 	roots = NULL;
 
-	int i = 0, j = 0, k = 0;
+	char rootHold[10];
 
 	roots = malloc(sizeof(complex_t) * rootCount);
 
-	// still needs to compensate for a roots at 0 and double digit roots
+	// assure that we only account for the correct number of roots
 	for(i = 0; i < rootCount;)
 	{
+		// found a root
 		if(polynomial[j] == 's')
 		{
 			k = j;
-			while(polynomial[k] != ')' && polynomial[k] != '/')
-			{
-				if(isdigit(polynomial[k]))
-				{
-					// need some for loop concatenating all the char digits
-					// to change to integer to get multi digit roots
-					roots[i].real = -(float)atoi(&polynomial[k]);
 
-					printf("%f\n", roots[i].real);
+			// zero root
+			if(polynomial[j+1] == '(' || polynomial[j+1] == '/' || polynomial[j+1] == '\0')
+			{
+				roots[i].real = 0;
+			}
+			else 
+			{
+				// iterate until the next root 
+				while(polynomial[k] != ')' && polynomial[k] != '/')
+				{
+					if(isdigit(polynomial[k]))
+					{
+						rootHold[l] = polynomial[k];	
+						l++;				
+
+						printf("%f\n", roots[i].real);
+					}
+					k++;
 				}
-				k++;
+				roots[i].real = -(float)atoi(rootHold);
 			}
 			i++;
 		}
+		l = 0;
 		j++;
 	}
 
