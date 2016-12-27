@@ -24,31 +24,15 @@
 int main(void)
 {
 	int i;
-	
 
-	char transferFunc[100];
-	char *rawDenom;
-	char *rawNum;
-	
-	//rawDenom = NULL;
-	//rawNum = NULL;
 
 	#ifdef INPUT_TEST
 
-	int numZeros;
+	char transferFunc[100], tf[100];
+	char *rawDenom, *rawNum;
 
-	char tf[100];
-
-	char *den;
-	char *num;
-	char ch;
-	ch = '/';
-
-	den = NULL;
-	num = NULL;
-
-	complex_t *z;
-	//complex_t *p;
+	complex_t *zero, *pole;
+	polynomial_t numerator, denominator;
 	
 
 	printf("Hello, welcome to Jeremy's feedback control package\n");
@@ -59,20 +43,25 @@ int main(void)
 	strcpy(transferFunc, tf);
 
 	rawNum = getNumerator(tf);
-	rawDenom = getDenominator(tf);
+	numerator.numRoots = getNumRoots(rawNum);
 
-	printf("numerator: %s\n", rawNum);
-	printf("denominator: %s\n", rawDenom);
-	printf("transfer: %s\n", transferFunc);
-	
-	numZeros = getNumRoots(rawNum);
-	z = getRoots(rawNum, numZeros);
+	zero = getRoots(rawNum, numerator.numRoots);
 
-
-	for(i = 0; i < numZeros; i++)
+	for(i = 0; i < numerator.numRoots; i++)
 	{
-		printf("zeros: %f\n", z[i].real);
+		printf("zero at: %f\n", zero[i].real);
 	}
+
+	rawDenom = getDenominator(tf);
+	denominator.numRoots = getNumRoots(rawDenom);
+
+	pole = getRoots(rawDenom, denominator.numRoots);
+
+	for(i = 0; i < denominator.numRoots; i++)
+	{
+		printf("pole at: %f\n", pole[i].real);
+	}
+
 
 	#endif /* INPUT_TEST */
 

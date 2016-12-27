@@ -57,7 +57,6 @@ complex_t* getRoots(char* polynomial, int rootCount)
 	int i = 0, j = 0, k = 0, l = 0;
 
 	complex_t *roots;
-	roots = NULL;
 
 	char rootHold[10];
 
@@ -86,7 +85,7 @@ complex_t* getRoots(char* polynomial, int rootCount)
 						rootHold[l] = polynomial[k];	
 						l++;				
 
-						printf("%f\n", roots[i].real);
+						//printf("%f\n", roots[i].real);
 					}
 					k++;
 				}
