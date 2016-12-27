@@ -16,7 +16,9 @@ char* getNumerator(char *transfer);
 
 char* getDenominator(char *transfer);
 
-complex_t* getRoots(char* polynomial);
+int getNumRoots(char* polynomial);
+
+complex_t* getRoots(char* polynomial, int rootCount);
 
 
 

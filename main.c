@@ -35,6 +35,8 @@ int main(void)
 
 	#ifdef INPUT_TEST
 
+	int numZeros;
+
 	char tf[100];
 
 	char *den;
@@ -63,14 +65,13 @@ int main(void)
 	printf("denominator: %s\n", rawDenom);
 	printf("transfer: %s\n", transferFunc);
 	
-	z = getRoots(rawNum);
+	numZeros = getNumRoots(rawNum);
+	z = getRoots(rawNum, numZeros);
 
-	printf("array size: %lu\n", (sizeof(z)));
-	printf("array size: %lu\n", (sizeof(&z[0])));
 
-	for(i = 0; i < (sizeof(z)/sizeof(&z[0])); i++)
+	for(i = 0; i < numZeros; i++)
 	{
-		printf("zeros: %f\n", z[i+1].real);
+		printf("zeros: %f\n", z[i].real);
 	}
 
 	#endif /* INPUT_TEST */

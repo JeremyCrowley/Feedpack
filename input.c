@@ -34,16 +34,10 @@ char* getDenominator(char *transfer)
 	return denominator;
 }
 
-complex_t* getRoots(char* polynomial)
+int getNumRoots(char* polynomial)
 {
-	complex_t *roots;
-	roots = NULL;
-
-	int i, j, k;
 	int rootCount = 0;
-	i = 0;
-	j = 0;
-	k = 0;
+	int i = 0;
 
 	// count the number of roots
 	while(polynomial[i] != '\0')
@@ -55,25 +49,33 @@ complex_t* getRoots(char* polynomial)
 		i++;
 	}
 
-	printf("complex size: %lu\n", sizeof(complex_t));
-	printf("root count: %d\n", rootCount);
-	printf("size count: %lu\n", sizeof(complex_t)*rootCount);
+	return rootCount;
+}
 
-	// isn't allocating enough memory?? always is 8 bytes
-	roots = calloc(rootCount, sizeof(complex_t));
+complex_t* getRoots(char* polynomial, int rootCount)
+{
+	complex_t *roots;
+	roots = NULL;
 
-	printf("complex size: %lu\n", sizeof(roots));
+	int i = 0, j = 0, k = 0;
 
-	// still needs to compensate for a roots at 0
+	roots = malloc(sizeof(complex_t) * rootCount);
+
+	// still needs to compensate for a roots at 0 and double digit roots
 	for(i = 0; i < rootCount;)
 	{
 		if(polynomial[j] == 's')
 		{
+			k = j;
 			while(polynomial[k] != ')' && polynomial[k] != '/')
 			{
 				if(isdigit(polynomial[k]))
 				{
-					roots[i].real = - atoi(&polynomial[k]);
+					// need some for loop concatenating all the char digits
+					// to change to integer to get multi digit roots
+					roots[i].real = -(float)atoi(&polynomial[k]);
+
+					printf("%f\n", roots[i].real);
 				}
 				k++;
 			}
