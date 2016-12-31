@@ -22,8 +22,9 @@ typedef struct ComplexNumber complex_t;
 
 struct Polynomial
 {
-	int numRoots;		// total number of zeros
+	int numRoots;		// total number of roots
 	int originRoots;	// number of roots at the origin
+	int size;			// size of roots array
 	complex_t *roots;
 };
 
