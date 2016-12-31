@@ -33,7 +33,7 @@ float FindCentroid(polynomial_t numerator, polynomial_t denominator);
  * param - angleArray is a pointer to the array to be filled with the angles of the asymptotes
  * ret - void
  */
-void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArray);
+void FindAsymptotes(int numZeros, int numPoles, float *angleArray);
 
 /* desc - finds the departure angle of a pole 
  * param - poles is the pole for which the departure angle is being calculated

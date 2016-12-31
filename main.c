@@ -91,13 +91,15 @@ int main(void)
 
 
 	/* centroid calculation */
-/*	float centroid;
+	float centroid;
 	centroid = FindCentroid(numerator, denominator);
 
-	// asymptotoe calculation 
+	printf("centroid at: %f\n", centroid);
+
+	// asymptote calculation 
 	float angles[denominator.numRoots-numerator.numRoots];
 
-	FindAsymptotes(centroid, numerator.numRoots, denominator.numRoots, angles);
+	FindAsymptotes(numerator.numRoots, denominator.numRoots, angles);
 
 	
 	for(i = 0; i < (denominator.numRoots-numerator.numRoots); i++)
@@ -118,19 +120,21 @@ int main(void)
 
 		j += numerator.roots[i].multiplicity;
 
-		printf("Arrival angle of pole at (%f, %f) is : %f degrees\n", 
+		printf("Arrival angle of zero at (%f, %f) is : %f degrees\n", 
 			numerator.roots[i].real, numerator.roots[i].imag, arrAngle[i]);
-	}*/
-
-	/*findArrival(numerator.roots[0], numerator, denominator, arrAngle0);
-	for(i = 0; i < numerator.roots[0].multiplicity; i++)
-	{
-		printf("Arrival angle of zeros at (%f, %f) is : %f degrees\n", numerator.roots[0].real, numerator.roots[0].imag, arrAngle0[i]);
 	}
-	
 
 
+	j = 0;
+	for(i = 0; j < denominator.numRoots; i++)
+	{
+		findDeparture(denominator.roots[i], numerator, denominator, &depAngle[i]);
 
+		j += denominator.roots[i].multiplicity;
+
+		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
+			denominator.roots[i].real, denominator.roots[i].imag, depAngle[i]);
+	}
 
 
 	float omegaZero, omegaInfty;
@@ -140,5 +144,5 @@ int main(void)
 
 	printf("s at zero: %f\n s at infinity: %f\n", omegaZero, omegaInfty);
 
-   */
+   
 }

@@ -8,18 +8,16 @@
 
 float SumRoots(polynomial_t polynomial)
 {
-	int i, j;
+	int i;
 	int sum = 0;
 
 	/* add all real parts (imaginary will cancel) */ 
-	for(i = 0; i < polynomial.numRoots; i++)
+	for(i = 0; i < polynomial.size; i++)
 	{	
-		for(j = polynomial.roots[i].multiplicity; j > 0;j--)
-		{
-			sum += polynomial.roots[i].real;
-		}	
+		sum += (polynomial.roots[i].multiplicity * polynomial.roots[i].real);
 	}
 	return sum;
+
 }
 
 float FindCentroid(polynomial_t numerator, polynomial_t denominator)
@@ -36,7 +34,7 @@ float FindCentroid(polynomial_t numerator, polynomial_t denominator)
 	return centroid;
 }
 
-void FindAsymptotes(float centroid, int numZeros, int numPoles, float *angleArray)
+void FindAsymptotes(int numZeros, int numPoles, float *angleArray)
 {
 	int i;
 
