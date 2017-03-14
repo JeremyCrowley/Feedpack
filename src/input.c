@@ -48,7 +48,6 @@ int getNumRoots(char* polynomial)
 		}
 		i++;
 	}
-
 	return rootCount;
 }
 
@@ -61,22 +60,19 @@ int getNumUniqueRoots(complex_t *roots, int numRoots)
 
 	for(i = 0; i < numRoots; i++)
 	{
-
 		// iterate backwards to check for duplicate
 		for(j = i-1; j >= 0; j--)
 		{
 			if(roots[i].real == roots[j].real)
 			{
 				duplicateFlag = true;	
-			}
-			
+			}			
 		}
 
 		if(duplicateFlag == false)
 		{
 			uniqueRootCount++;
 		}
-
 		duplicateFlag = false;
 	}
 	return uniqueRootCount;
@@ -114,23 +110,20 @@ complex_t* getRoots(char* polynomial, int rootCount)
 					{
 						rootHold[l] = polynomial[k];	
 						l++;				
-
-						//printf("%f\n", roots[i].real);
 					}
 					k++;
 				}
 				roots[i].real = -(float)atoi(rootHold);
 			}	
-			// temporary
+			// temporary, need to include imaginary rooots
 			roots[i].imag = 0;
-			// temporarym
+			// temporary
 			roots[i].multiplicity = 1;
 			i++;
 		}
 		l = 0;
 		j++;
 	}
-
 	return roots;
 }
 
@@ -154,12 +147,8 @@ int isDuplicate(complex_t *roots, int curRoot, complex_t root)
 		}
 		i++;
 	}
-
 	return -1;
-	
 }
-
-
 
 void printPolynomial(complex_t *roots, int numRoots)
 {
@@ -179,8 +168,3 @@ void printPolynomial(complex_t *roots, int numRoots)
 	}
 	printf("\n");
 }
-
-
-
-
-
