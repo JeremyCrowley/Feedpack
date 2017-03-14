@@ -8,11 +8,11 @@
 #include "nyquist.h"
 #include "input.h"
 
-
 int main(void)
 {
 	int i, j;
-
+	
+	// need too change to allocate dynamically
 	char transferFunc[100], tf[100];
 	char *rawDenom, *rawNum;
 
