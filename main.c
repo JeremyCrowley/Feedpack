@@ -28,7 +28,10 @@ int main(void)
 	printf("Hello, welcome to Jeremy's feedback control package\n");
 	printf("Please enter a transfer function: \n");
 	scanf("%s", tf);
+
+	printf("\n");
 	printf("You entered: %s\n", tf);
+	printf("\n");
 
 	strcpy(transferFunc, tf);
 
@@ -85,6 +88,13 @@ int main(void)
 		}
 	}
 
+	// Error handling for improper transfer functions
+	if(numerator.numRoots > denominator.numRoots)
+	{
+		fprintf(stderr, "Not a proper transfer function, Exiting\n\n");
+    	exit(1);
+    }
+
 
 	printPolynomial(numerator.roots, numerator.numRoots);
 	printPolynomial(denominator.roots, denominator.numRoots);
@@ -95,6 +105,7 @@ int main(void)
 	centroid = FindCentroid(numerator, denominator);
 
 	printf("centroid at: %f\n", centroid);
+	printf("\n");
 
 	// asymptote calculation 
 	float angles[denominator.numRoots-numerator.numRoots];
@@ -106,6 +117,7 @@ int main(void)
 	{
 		printf("asymptote starting at %f at an angle of %f\n", centroid, angles[i]);
 	}
+	printf("\n");
 
 
 
@@ -135,6 +147,7 @@ int main(void)
 		printf("Departure angle of pole at (%f, %f) is : %f degrees\n", 
 			denominator.roots[i].real, denominator.roots[i].imag, depAngle[i]);
 	}
+	printf("\n");
 
 
 	float omegaZero, omegaInfty;
@@ -142,7 +155,8 @@ int main(void)
 	omegaZero = sAtZero(numerator, denominator);
 	omegaInfty = sToInfty(numerator, denominator);
 
-	printf("s at zero: %f\n s at infinity: %f\n", omegaZero, omegaInfty);
+	printf("s at zero: %f\ns at infinity: %f\n", omegaZero, omegaInfty);
+	printf("\n");
 
    
 }

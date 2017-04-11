@@ -2,7 +2,7 @@
 /* file: rootlocus.c */
 
 
-#include "rootlocus.h"
+#include "../inc/rootlocus.h"
 
 #define PI 3.141592
 
