@@ -35,6 +35,7 @@ int main(void)
 
 	strcpy(transferFunc, tf);
 
+	// extract the numerator from the transfer function
 	rawNum = getNumerator(tf);
 	numerator.numRoots = getNumRoots(rawNum);
 
@@ -62,6 +63,7 @@ int main(void)
 		}
 	}
 
+	// extract the denominator from the transfer function
 	rawDenom = getDenominator(tf);
 	denominator.numRoots = getNumRoots(rawDenom);
 
